@@ -1,16 +1,13 @@
 @using NgIcons.Core
 @inject IJSRuntime Js
 
-<div class="icon-card" style="--accent:@Accent">
-    <div class="icon-visual" @onclick="CopySvg">
+<div class="bg-card border border-white/10 rounded-xl p-3 flex flex-col gap-2.5 items-center transition-all hover:-translate-y-0.5 hover:border-purple-500/50 hover:shadow-xl">
+    <div @onclick="CopySvg"
+         class="w-16 h-16 grid place-items-center rounded-lg bg-white/5 border border-dashed border-purple-500/60 cursor-pointer [&_svg]:w-12 [&_svg]:h-12 [&_svg]:text-gray-200">
         @((MarkupString)Icon.WithSize(48))
     </div>
-    <div class="icon-meta">
-        <div class="icon-name">@Icon.Name</div>
-        <div class="icon-actions">
-            <span class="icon-pill">@Library</span>
-            <button class="icon-button" @onclick="CopyName">Copy name</button>
-        </div>
+    <div class="flex-1 min-w-0">
+        <div class=" text-gray-400 truncate text-sm">@Icon.Name</div>
     </div>
 </div>
 
@@ -19,15 +16,7 @@
     public IconDefinition Icon { get; set; } = default!;
 
     [Parameter]
-    public string Library { get; set; } = string.Empty;
-
-    [Parameter]
     public string Accent { get; set; } = "#6b21a8";
-
-    private async Task CopyName()
-    {
-        await Js.InvokeVoidAsync("navigator.clipboard.writeText", Icon.Name);
-    }
 
     private async Task CopySvg()
     {
