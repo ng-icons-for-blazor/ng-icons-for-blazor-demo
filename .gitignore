@@ -1,0 +1,36 @@
+# Build outputs
+bin/
+obj/
+artifacts/
+
+# VS Code
+.vscode/*.suo
+.vscode/*.user
+.vscode/*.userosscache
+.vscode/*.sln.docstates
+
+# Rider/VS
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/packages/
+
+# Node
+node_modules/
+package-lock.json
+npm-debug.log*
+yarn-error.log
+
+# Logs
+*.log
+
+# Others
+.DS_Store
+Thumbs.db
+*.orig
