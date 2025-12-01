@@ -44,6 +44,9 @@ jobs:
       - name: Publish Blazor app
         run: dotnet publish samples/NgIcons.Demo/NgIcons.Demo.csproj -c Release -o release
 
+      - name: Update base href for GitHub Pages
+        run: sed -i 's|<base href="/" />|<base href="/ng-icons-for-blazor-demo/" />|g' release/wwwroot/index.html
+
       - name: Add .nojekyll file
         run: touch release/wwwroot/.nojekyll
 
