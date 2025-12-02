@@ -84,9 +84,14 @@ jobs:
         run: |
           dotnet nuget push "artifacts/*.nupkg" --source "$NUGET_SOURCE" --api-key "$NUGET_API_KEY" --skip-duplicate
 
+      - name: Get project name
+        if: github.event_name != 'push'
+        id: project-name
+        run: echo "name=$(basename ${{ matrix.project }} .csproj)" >> $GITHUB_OUTPUT
+
       - name: Upload artifacts
         if: github.event_name != 'push'
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.project }}-packages
+          name: ${{ steps.project-name.outputs.name }}-packages
           path: artifacts/*.nupkg
