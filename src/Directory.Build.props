@@ -7,7 +7,7 @@
     <LangVersion>latest</LangVersion>
 
     <!-- Package metadata -->
-    <Version>33.0.0</Version>
+    <Version>33.0.1</Version>
     <Authors>Anthony Brenelière</Authors>
     <Company>TOT Concept</Company>
     <Copyright>Copyright © ng-icons-for-blazor</Copyright>
