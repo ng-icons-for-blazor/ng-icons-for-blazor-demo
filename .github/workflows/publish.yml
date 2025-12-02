@@ -41,7 +41,6 @@ jobs:
           - src/NgIcons.PhosphorIcons/NgIcons.PhosphorIcons.csproj
           - src/NgIcons.RadixIcons/NgIcons.RadixIcons.csproj
           - src/NgIcons.Remixicon/NgIcons.Remixicon.csproj
-          - src/NgIcons.Schematics/NgIcons.Schematics.csproj
           - src/NgIcons.SimpleIcons/NgIcons.SimpleIcons.csproj
           - src/NgIcons.SolarIcons/NgIcons.SolarIcons.csproj
           - src/NgIcons.Svgl/NgIcons.Svgl.csproj
