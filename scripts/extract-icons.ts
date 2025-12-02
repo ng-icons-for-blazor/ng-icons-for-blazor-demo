@@ -70,7 +70,7 @@ async function loadIcons(importPath: string): Promise<Array<[string, string]>> {
   return Object.entries(mod).filter(([, value]) => typeof value === 'string') as Array<[string, string]>;
 }
 
-async function generateLibrary(library: Library): Promise<void> {
+async function generateLibrary(library: Library): Promise<number> {
   const pkgPath = path.join(repoRoot, 'node_modules', ...library.npm.split('/'), 'package.json');
   const pkg = await fs.readJson(pkgPath);
   const npmVersion: string = pkg.version ?? '0.0.0';
@@ -159,12 +159,33 @@ public static class IconSet
   }
 
   console.log(`Generated ${icons.length} icons for ${library.project}`);
+  return icons.length;
+}
+
+async function updatePageTitle(totalIcons: number): Promise<void> {
+  const indexHtml = path.join(repoRoot, 'samples', 'NgIcons.Demo', 'wwwroot', 'index.html');
+  await updatePageTitleInFile(indexHtml, 'title', totalIcons);
+  const homeRazor = path.join(repoRoot, 'samples', 'NgIcons.Demo', 'Pages', 'Home.razor');
+  await updatePageTitleInFile(homeRazor, 'PageTitle', totalIcons);
+}
+
+async function updatePageTitleInFile(htmlPath: string, element: string, totalIcons: number) {
+  if (await fs.pathExists(htmlPath)) {
+    let html = await fs.readFile(htmlPath, 'utf8');
+    html = html.replace(new RegExp(`<${element}>\\d+ `), `<${element}>${totalIcons} `);
+    await fs.writeFile(htmlPath, html, 'utf8');
+    console.log(`Updated HTML title to "${totalIcons} icons for Blazor apps" in ${htmlPath}`);
+  }
 }
 
 async function main(): Promise<void> {
+  let totalIcons = 0;
   for (const lib of libraries) {
-    await generateLibrary(lib);
+    const count = await generateLibrary(lib);
+    totalIcons += count;
   }
+  console.log(`Total icons generated: ${totalIcons}`);
+  await updatePageTitle(totalIcons);
 }
 
 main().catch((error) => {

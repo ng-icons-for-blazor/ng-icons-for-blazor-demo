@@ -1,7 +1,7 @@
 @using NgIcons.Core
 @inject IJSRuntime Js
 
-<div class="bg-card border border-white/10 rounded-xl p-3 flex flex-col gap-2.5 items-center transition-all hover:-translate-y-0.5 hover:border-purple-500/50 hover:shadow-xl">
+<div class="bg-card border border-white/10 rounded-xl p-3 flex flex-col gap-2.5 items-center transition-all hover:-translate-y-0.5 hover:border-purple-500/50 hover:shadow-xl relative">
     <div @onclick="CopySvg"
          class="w-16 h-16 grid place-items-center rounded-lg bg-white/5 border border-dashed border-purple-500/60 cursor-pointer [&_svg]:w-12 [&_svg]:h-12 [&_svg]:text-gray-200">
         @((MarkupString)Icon.WithSize(48))
@@ -9,6 +9,12 @@
     <div class="flex-1 min-w-0">
         <div class=" text-gray-400 truncate text-sm">@Icon.Name</div>
     </div>
+    @if (_showCopied)
+    {
+        <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 text-xs text-purple-400 bg-gray-900 font-semibold whitespace-nowrap animate-fade-in">
+            svg copied!
+        </div>
+    }
 </div>
 
 @code {
@@ -18,8 +24,15 @@
     [Parameter]
     public string Accent { get; set; } = "#6b21a8";
 
+    private bool _showCopied;
+
     private async Task CopySvg()
     {
         await Js.InvokeVoidAsync("navigator.clipboard.writeText", Icon.Svg);
+        _showCopied = true;
+        StateHasChanged();
+        await Task.Delay(1500);
+        _showCopied = false;
+        StateHasChanged();
     }
 }
