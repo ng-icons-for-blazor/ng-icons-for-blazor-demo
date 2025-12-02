@@ -70,47 +70,44 @@ async function loadIcons(importPath: string): Promise<Array<[string, string]>> {
   return Object.entries(mod).filter(([, value]) => typeof value === 'string') as Array<[string, string]>;
 }
 
-async function generateLibrary(library: Library): Promise<number> {
-  const pkgPath = path.join(repoRoot, 'node_modules', ...library.npm.split('/'), 'package.json');
-  const pkg = await fs.readJson(pkgPath);
-  const npmVersion: string = pkg.version ?? '0.0.0';
-  let exportKeys = Object.keys(pkg.exports ?? {}).filter((key) => key !== './package.json');
-  if (exportKeys.length === 0) {
-    exportKeys = ['.'];
-  }
+interface SuffixIcons {
+  suffix: string; // '' for default, 'baseline', 'outline', etc.
+  icons: Array<[string, string]>;
+}
 
-  const icons: Array<[string, string]> = [];
-  for (const key of exportKeys) {
-    const suffix = key === '.' ? '' : key.slice(1);
-    const importPath = `${library.npm}${suffix}`;
-    try {
-      const loaded = await loadIcons(importPath);
-      icons.push(...loaded);
-    } catch (error) {
-      console.warn(`Skipping ${library.npm}${suffix}: ${String(error)}`);
-    }
-  }
+function generateIconSetClass(namespace: string, suffixes: string[]): string {
+  const hasSuffixes = suffixes.length > 1 || (suffixes.length === 1 && suffixes[0] !== '');
+  const defaultSuffix = suffixes[0] || '';
 
-  icons.sort((a, b) => a[0].localeCompare(b[0]));
+  // Generate suffix array literal
+  const suffixArrayLiteral = suffixes.map((s) => `"${s}"`).join(', ');
 
-  const iconObject = Object.fromEntries(icons);
-
-  const content = `${header}
-namespace ${library.project};
+  if (!hasSuffixes) {
+    // Single file, no suffixes - keep simple API
+    return `${header}
+namespace ${namespace};
 
 public static class IconSet
 {
-    private static readonly Lazy<IReadOnlyDictionary<string, IconDefinition>> IconsLoader = new(Load);
+    private static readonly Lazy<IReadOnlyDictionary<string, IconDefinition>> IconsLoader = new(() => Load(""));
+
+    public static IReadOnlyList<string> Suffixes { get; } = Array.Empty<string>();
 
     public static IReadOnlyDictionary<string, IconDefinition> All => IconsLoader.Value;
 
+    public static IconDefinition Get(string name) => All[name];
+
     public static bool TryGet(string name, [NotNullWhen(true)] out IconDefinition? icon) => All.TryGetValue(name, out icon);
 
-    private static IReadOnlyDictionary<string, IconDefinition> Load()
+    public static IReadOnlyDictionary<string, IconDefinition> GetBySuffix(string suffix) => Load(suffix);
+
+    private static IReadOnlyDictionary<string, IconDefinition> Load(string suffix)
     {
         try
         {
-            var resourceName = $"{typeof(IconSet).Namespace}.Icons.json";
+            var resourceName = string.IsNullOrEmpty(suffix)
+                ? $"{typeof(IconSet).Namespace}.Icons.json"
+                : $"{typeof(IconSet).Namespace}.Icons-{suffix}.json";
             using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName)
                 ?? throw new InvalidOperationException($"Resource '{resourceName}' was not found.");
             using var reader = new StreamReader(stream);
@@ -131,35 +128,121 @@ public static class IconSet
     }
 }
 `;
+  }
+
+  // Multiple suffixes - include suffix selection
+  return `${header}
+namespace ${namespace};
+
+public static class IconSet
+{
+    private static readonly Lazy<IReadOnlyDictionary<string, IconDefinition>> IconsLoader = new(() => Load("${defaultSuffix}"));
+
+    public static IReadOnlyList<string> Suffixes { get; } = new[] { ${suffixArrayLiteral} };
+
+    public static IReadOnlyDictionary<string, IconDefinition> All => IconsLoader.Value;
+
+    public static IconDefinition Get(string name) => All[name];
+
+    public static bool TryGet(string name, [NotNullWhen(true)] out IconDefinition? icon) => All.TryGetValue(name, out icon);
+
+    public static IReadOnlyDictionary<string, IconDefinition> GetBySuffix(string suffix) => Load(suffix);
+
+    private static IReadOnlyDictionary<string, IconDefinition> Load(string suffix)
+    {
+        try
+        {
+            var resourceName = string.IsNullOrEmpty(suffix)
+                ? $"{typeof(IconSet).Namespace}.Icons.json"
+                : $"{typeof(IconSet).Namespace}.Icons-{suffix}.json";
+            using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName)
+                ?? throw new InvalidOperationException($"Resource '{resourceName}' was not found.");
+            using var reader = new StreamReader(stream);
+            var json = reader.ReadToEnd();
+            var parsed = JsonSerializer.Deserialize<Dictionary<string, string>>(json) ?? new Dictionary<string, string>();
+            var dict = new Dictionary<string, IconDefinition>(StringComparer.OrdinalIgnoreCase);
+            foreach (var kvp in parsed)
+            {
+                dict[kvp.Key] = new IconDefinition(kvp.Key, kvp.Value);
+            }
+            return new ReadOnlyDictionary<string, IconDefinition>(dict);
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"[ng-icons] Failed to load icons for {typeof(IconSet).Namespace}: {ex}");
+            return new ReadOnlyDictionary<string, IconDefinition>(new Dictionary<string, IconDefinition>(StringComparer.OrdinalIgnoreCase));
+        }
+    }
+}
+`;
+}
+
+async function generateLibrary(library: Library): Promise<number> {
+  const pkgPath = path.join(repoRoot, 'node_modules', ...library.npm.split('/'), 'package.json');
+  const pkg = await fs.readJson(pkgPath);
+  let exportKeys = Object.keys(pkg.exports ?? {}).filter((key) => key !== './package.json');
+  if (exportKeys.length === 0) {
+    exportKeys = ['.'];
+  }
+
+  const suffixGroups: SuffixIcons[] = [];
+  for (const key of exportKeys) {
+    const suffix = key === '.' ? '' : key.slice(2); // './baseline' -> 'baseline'
+    const importPath = `${library.npm}${key === '.' ? '' : key.slice(1)}`;
+    try {
+      const loaded = await loadIcons(importPath);
+      if (loaded.length > 0) {
+        loaded.sort((a, b) => a[0].localeCompare(b[0]));
+        suffixGroups.push({ suffix, icons: loaded });
+      }
+    } catch (error) {
+      console.warn(`Skipping ${library.npm}${key === '.' ? '' : key.slice(1)}: ${String(error)}`);
+    }
+  }
+
+  // Sort suffix groups: default ('') first, then alphabetically
+  suffixGroups.sort((a, b) => {
+    if (a.suffix === '') return -1;
+    if (b.suffix === '') return 1;
+    return a.suffix.localeCompare(b.suffix);
+  });
 
   const projectDir = path.join(repoRoot, 'src', library.project);
   await fs.ensureDir(projectDir);
+
+  // Remove default Class1.cs if present
   const defaultClass = path.join(projectDir, 'Class1.cs');
   if (await fs.pathExists(defaultClass)) {
     await fs.remove(defaultClass);
   }
-  await fs.writeJson(path.join(projectDir, 'Icons.json'), iconObject, { spaces: 0 });
-  await fs.writeFile(path.join(projectDir, 'Icons.g.cs'), content, 'utf8');
 
-  const csprojPath = path.join(projectDir, `${library.project}.csproj`);
-  if (await fs.pathExists(csprojPath)) {
-    let xml = await fs.readFile(csprojPath, 'utf8');
-    if (xml.includes('<Version>')) {
-      xml = xml.replace(/<Version>[^<]*<\/Version>/, `<Version>${npmVersion}</Version>`);
-    } else {
-      xml = xml.replace(/<PropertyGroup>/, `<PropertyGroup>\n    <Version>${npmVersion}</Version>`);
+  // Remove old Icons.json files before generating new ones
+  const existingFiles = await fs.readdir(projectDir);
+  for (const file of existingFiles) {
+    if (file.startsWith('Icons') && file.endsWith('.json')) {
+      await fs.remove(path.join(projectDir, file));
     }
-    if (!xml.includes('Icons.json')) {
-      xml = xml.replace(
-        /<\/Project>/,
-        `  <ItemGroup>\n    <EmbeddedResource Include=\"Icons.json\" />\n  </ItemGroup>\n</Project>`
-      );
-    }
-    await fs.writeFile(csprojPath, xml, 'utf8');
   }
 
-  console.log(`Generated ${icons.length} icons for ${library.project}`);
-  return icons.length;
+  let totalIcons = 0;
+  const suffixes: string[] = [];
+
+  // Write JSON files for each suffix group
+  for (const group of suffixGroups) {
+    const iconObject = Object.fromEntries(group.icons);
+    const fileName = group.suffix === '' ? 'Icons.json' : `Icons-${group.suffix}.json`;
+    await fs.writeJson(path.join(projectDir, fileName), iconObject, { spaces: 0 });
+    totalIcons += group.icons.length;
+    suffixes.push(group.suffix);
+  }
+
+  // Generate the C# class
+  const content = generateIconSetClass(library.project, suffixes);
+  await fs.writeFile(path.join(projectDir, 'Icons.g.cs'), content, 'utf8');
+
+  const suffixInfo = suffixes.length > 1 ? ` (${suffixes.length} variants: ${suffixes.join(', ')})` : '';
+  console.log(`Generated ${totalIcons} icons for ${library.project}${suffixInfo}`);
+  return totalIcons;
 }
 
 async function updatePageTitle(totalIcons: number): Promise<void> {
@@ -178,7 +261,26 @@ async function updatePageTitleInFile(htmlPath: string, element: string, totalIco
   }
 }
 
+async function updateDirectoryBuildPropsVersion(): Promise<string> {
+  const corePkgPath = path.join(repoRoot, 'node_modules', '@ng-icons', 'core', 'package.json');
+  const pkg = await fs.readJson(corePkgPath);
+  const npmVersion: string = pkg.version ?? '0.0.0';
+
+  const propsPath = path.join(repoRoot, 'src', 'Directory.Build.props');
+  if (await fs.pathExists(propsPath)) {
+    let xml = await fs.readFile(propsPath, 'utf8');
+    xml = xml.replace(/<Version>[^<]*<\/Version>/, `<Version>${npmVersion}</Version>`);
+    await fs.writeFile(propsPath, xml, 'utf8');
+    console.log(`Updated version to ${npmVersion} in src/Directory.Build.props`);
+  }
+
+  return npmVersion;
+}
+
 async function main(): Promise<void> {
+  const version = await updateDirectoryBuildPropsVersion();
+  console.log(`Using ng-icons version: ${version}`);
+
   let totalIcons = 0;
   for (const lib of libraries) {
     const count = await generateLibrary(lib);

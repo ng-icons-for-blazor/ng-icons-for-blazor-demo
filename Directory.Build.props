@@ -2,13 +2,11 @@
   <PropertyGroup>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <VersionPrefix>0.1.0</VersionPrefix>
-    <Authors>ngIcons</Authors>
-    <Company>ngIcons</Company>
+    <Authors>Anthony Brenelière</Authors>
+    <Company>TOT Concept</Company>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/your-org/ngIcons.for.Blazor</RepositoryUrl>
-    <PackageProjectUrl>https://ng-icons.github.io/ng-icons/#/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ng-icons-for-blazor/ng-icons-for-blazor-demo</RepositoryUrl>
+    <PackageProjectUrl>https://ng-icons-for-blazor.github.io/ng-icons-for-blazor-demo/</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageOutputPath>$(MSBuildThisFileDirectory)artifacts</PackageOutputPath>
   </PropertyGroup>
 </Project>

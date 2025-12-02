@@ -4,11 +4,12 @@
 @* Title updated by extract-icons.ts script *@
 <PageTitle>76785 icons for Blazor apps</PageTitle> 
 
-<div class="mt-5 rounded-2xl p-7 bg-gradient-to-br from-purple-600/20 to-cyan-500/10 border border-white/10 flex items-center justify-between gap-5 flex-wrap">
+<div class="mt-5 rounded-2xl p-7 bg-gradient-to-br from-purple-700/40 to-cyan-600/20 border border-white/15 flex items-center justify-between gap-5 flex-wrap">
     <div>
         <p class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 text-gray-200 font-semibold text-sm">Blazor x ng-icons</p>
         <h1 class="my-2 text-3xl font-bold text-white">ngIcons for Blazor</h1>
         <p class="text-slate-400 max-w-xl">Browse every ng-icons pack, preview SVGs, and copy markup ready for your components.</p>
+        <code class="block mt-3 px-3 py-2 rounded-lg bg-black/50 text-sm text-gray-300 font-mono border border-white/10">dotnet add package NgIcons.@ActiveLibrary.DisplayName.Replace(" ", "")</code>
         <div class="flex gap-3 mt-4">
             <a href="https://ng-icons.github.io/ng-icons/#/" target="_blank" rel="noreferrer"
                class="px-4 py-2.5 rounded-xl border border-white/10 bg-purple-500 text-slate-900 font-bold hover:opacity-90 transition-opacity">Original library</a>
@@ -16,7 +17,7 @@
                class="px-4 py-2.5 rounded-xl border border-white/10 text-gray-200 font-semibold hover:border-white/20 transition-colors">Project repo</a>
         </div>
     </div>
-    <div class="px-4 py-2.5 rounded-xl border border-white/10 bg-black/25 font-semibold">@ActiveLibrary.DisplayName</div>
+    <div class="px-4 py-2.5 rounded-xl border border-white/10 bg-black/40 font-semibold text-white">@ActiveLibrary.DisplayName</div>
 </div>
 
 <div class="mt-5 grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-4">
@@ -35,6 +36,19 @@
     </aside>
 
     <section class="border border-white/10 rounded-2xl bg-panel p-4">
+        @if (ActiveLibrary.HasSuffixes)
+        {
+            <div class="flex gap-2 mb-3 flex-wrap">
+                @foreach (var suffix in ActiveLibrary.Suffixes)
+                {
+                    <button @onclick="() => SetSuffix(suffix)"
+                            class="px-3 py-1.5 rounded-lg border font-medium text-sm transition-all
+                                   @(suffix == ActiveSuffix ? "border-purple-500 bg-purple-500/20 text-purple-300" : "border-white/10 bg-white/5 text-gray-300 hover:border-white/20")">
+                        @(string.IsNullOrEmpty(suffix) ? "default" : suffix)
+                    </button>
+                }
+            </div>
+        }
         <div class="flex flex-wrap gap-3 items-center justify-between mb-3">
             <div class="flex-1 min-w-[260px]">
                 <input @bind="Search" @bind:event="oninput" placeholder="Search icons by name"
@@ -69,6 +83,7 @@
 @code {
     private const int IconsPerRow = 5;
     private IconLibraryEntry ActiveLibrary { get; set; } = IconCatalog.Libraries[0];
+    private string ActiveSuffix { get; set; } = "";
     private List<IconDefinition> FilteredIcons { get; set; } = new();
     private List<IconDefinition[]> IconRows { get; set; } = new();
     private string _search = string.Empty;
@@ -84,18 +99,30 @@
 
     protected override void OnInitialized()
     {
+        ActiveSuffix = ActiveLibrary.HasSuffixes ? ActiveLibrary.Suffixes[0] : "";
         RefreshIcons();
     }
 
     private void SetLibrary(IconLibraryEntry entry)
     {
         ActiveLibrary = entry;
+        ActiveSuffix = entry.HasSuffixes ? entry.Suffixes[0] : "";
+        RefreshIcons();
+    }
+
+    private void SetSuffix(string suffix)
+    {
+        ActiveSuffix = suffix;
         RefreshIcons();
     }
 
     private void RefreshIcons()
     {
-        FilteredIcons = ActiveLibrary.Library.Icons.Values
+        var library = ActiveLibrary.HasSuffixes
+            ? ActiveLibrary.GetLibrary(ActiveSuffix)
+            : ActiveLibrary.Library;
+
+        FilteredIcons = library.Icons.Values
             .Where(icon => string.IsNullOrWhiteSpace(Search) || icon.Name.Contains(Search, StringComparison.OrdinalIgnoreCase))
             .OrderBy(icon => icon.Name)
             .ToList();

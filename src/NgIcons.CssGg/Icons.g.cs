@@ -16,17 +16,25 @@ namespace NgIcons.CssGg;
 
 public static class IconSet
 {
-    private static readonly Lazy<IReadOnlyDictionary<string, IconDefinition>> IconsLoader = new(Load);
+    private static readonly Lazy<IReadOnlyDictionary<string, IconDefinition>> IconsLoader = new(() => Load(""));
+
+    public static IReadOnlyList<string> Suffixes { get; } = Array.Empty<string>();
 
     public static IReadOnlyDictionary<string, IconDefinition> All => IconsLoader.Value;
 
+    public static IconDefinition Get(string name) => All[name];
+
     public static bool TryGet(string name, [NotNullWhen(true)] out IconDefinition? icon) => All.TryGetValue(name, out icon);
 
-    private static IReadOnlyDictionary<string, IconDefinition> Load()
+    public static IReadOnlyDictionary<string, IconDefinition> GetBySuffix(string suffix) => Load(suffix);
+
+    private static IReadOnlyDictionary<string, IconDefinition> Load(string suffix)
     {
         try
         {
-            var resourceName = $"{typeof(IconSet).Namespace}.Icons.json";
+            var resourceName = string.IsNullOrEmpty(suffix)
+                ? $"{typeof(IconSet).Namespace}.Icons.json"
+                : $"{typeof(IconSet).Namespace}.Icons-{suffix}.json";
             using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName)
                 ?? throw new InvalidOperationException($"Resource '{resourceName}' was not found.");
             using var reader = new StreamReader(stream);

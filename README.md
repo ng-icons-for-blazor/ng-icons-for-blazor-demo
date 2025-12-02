@@ -62,12 +62,18 @@ dotnet add package NgIcons.Heroicons
 Then use icons in your Blazor components:
 
 ```csharp
-@using NgIcons.Heroicons
+@using HeroIconSet = NgIcons.Heroicons.IconSet
+@using MaterialIconSet = NgIcons.MaterialIcons.IconSet
 
-@if (IconSet.TryGet("heroArrowRight", out var icon))
-{
-    @((MarkupString)icon.Svg)
-}
+<button class="btn btn-primary">
+    @((MarkupString)HeroIconSet.Get("heroArrowRight").WithSize(24))
+    Continue
+</button>
+
+<button class="btn btn-secondary">
+    @((MarkupString)MaterialIconSet.Get("matSettings").WithSize(24))
+    Settings
+</button>
 ```
 
 ### Copying Icons Directly
