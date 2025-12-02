@@ -16,7 +16,7 @@
     <ProjectReference Include="..\..\src\NgIcons.BootstrapIcons\NgIcons.BootstrapIcons.csproj" />
     <ProjectReference Include="..\..\src\NgIcons.Boxicons\NgIcons.Boxicons.csproj" />
     <ProjectReference Include="..\..\src\NgIcons.CircumIcons\NgIcons.CircumIcons.csproj" />
-    <ProjectReference Include="..\..\src\NgIcons.Core\NgIcons.Core.csproj" />
+    <ProjectReference Include="..\..\core\NgIcons.Core.csproj" />
     <ProjectReference Include="..\..\src\NgIcons.CryptocurrencyIcons\NgIcons.CryptocurrencyIcons.csproj" />
     <ProjectReference Include="..\..\src\NgIcons.CssGg\NgIcons.CssGg.csproj" />
     <ProjectReference Include="..\..\src\NgIcons.Devicon\NgIcons.Devicon.csproj" />
@@ -41,7 +41,6 @@
     <ProjectReference Include="..\..\src\NgIcons.PhosphorIcons\NgIcons.PhosphorIcons.csproj" />
     <ProjectReference Include="..\..\src\NgIcons.RadixIcons\NgIcons.RadixIcons.csproj" />
     <ProjectReference Include="..\..\src\NgIcons.Remixicon\NgIcons.Remixicon.csproj" />
-    <ProjectReference Include="..\..\src\NgIcons.Schematics\NgIcons.Schematics.csproj" />
     <ProjectReference Include="..\..\src\NgIcons.SimpleIcons\NgIcons.SimpleIcons.csproj" />
     <ProjectReference Include="..\..\src\NgIcons.SolarIcons\NgIcons.SolarIcons.csproj" />
     <ProjectReference Include="..\..\src\NgIcons.Svgl\NgIcons.Svgl.csproj" />

@@ -1,14 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(dotnet build:*)",
-      "Bash(git remote add:*)",
-      "Bash(git remote set-url:*)",
-      "Bash(git push:*)",
-      "Bash(node -e:*)",
-      "Bash(npm run extract:*)",
-      "Bash(npm run)",
-      "Bash(npm run extract-icons:*)"
+      "Bash(dotnet script:*)",
+      "Bash(del:*)",
+      "Bash(dotnet run)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []

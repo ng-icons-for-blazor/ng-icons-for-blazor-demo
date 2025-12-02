@@ -66,12 +66,12 @@ Then use icons in your Blazor components:
 @using MaterialIconSet = NgIcons.MaterialIcons.IconSet
 
 <button class="btn btn-primary">
-    @((MarkupString)HeroIconSet.Get("heroArrowRight").WithSize(24))
+    @((MarkupString)HeroIconSet.heroArrowRight.WithSize(24))
     Continue
 </button>
 
 <button class="btn btn-secondary">
-    @((MarkupString)MaterialIconSet.Get("matSettings").WithSize(24))
+    @((MarkupString)MaterialIconSet.matSettings.WithSize(24))
     Settings
 </button>
 ```
@@ -125,7 +125,8 @@ The `scripts/extract-icons.ts` script performs the following:
    - `Icons.json` - A JSON file containing all icon names and their SVG content, embedded as a resource
    - `Icons.g.cs` - A C# class (`IconSet`) that provides:
      - `All` property - Returns all icons as `IReadOnlyDictionary<string, IconDefinition>`
-     - `TryGet(name, out icon)` method - Retrieves a specific icon by name
+     - `Get(name)` / `TryGet(name, out icon)` methods - Retrieve a specific icon by name
+     - Individual properties for each icon (e.g., `heroArrowRight`) for direct access with IntelliSense
 
 4. **Updates the .csproj file** - Syncs the package version with the npm package version and ensures `Icons.json` is embedded as a resource
 

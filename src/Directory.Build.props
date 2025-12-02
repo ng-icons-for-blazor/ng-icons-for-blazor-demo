@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <!-- Multi-targeting for broad .NET compatibility -->
-    <TargetFrameworks>net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>net6.0</TargetFrameworks>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
@@ -38,8 +38,15 @@
     <None Include="..\icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
+  <!-- Embed individual SVG files and index files for lazy loading -->
   <ItemGroup>
-    <EmbeddedResource Include="Icons*.json" />
+    <EmbeddedResource Include="Icons\**\*.svg" />
+    <EmbeddedResource Include="Icons\*.json" />
+  </ItemGroup>
+
+  <!-- NgIcons.Core dependency for all icon libraries -->
+  <ItemGroup>
+    <ProjectReference Include="$(MSBuildThisFileDirectory)..\core\NgIcons.Core.csproj" />
   </ItemGroup>
 
   <!-- Source Link package reference -->
