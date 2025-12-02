@@ -7,7 +7,7 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/samples/NgIcons.Demo/NgIcons.Demo.csproj",
+        "${workspaceFolder}/src/NgIcons.Demo/NgIcons.Demo.csproj",
         "-c",
         "Debug"
       ],
@@ -22,7 +22,7 @@
         "watch",
         "run",
         "--project",
-        "${workspaceFolder}/samples/NgIcons.Demo/NgIcons.Demo.csproj"
+        "${workspaceFolder}/src/NgIcons.Demo/NgIcons.Demo.csproj"
       ],
       "problemMatcher": "$msCompile",
       "isBackground": true,
