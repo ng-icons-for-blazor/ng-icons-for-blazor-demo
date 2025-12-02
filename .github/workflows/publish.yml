@@ -13,7 +13,6 @@ jobs:
       fail-fast: false
       matrix:
         project:
-          - src/NgIcons.Core/NgIcons.Core.csproj
           - src/NgIcons.AkarIcons/NgIcons.AkarIcons.csproj
           - src/NgIcons.BootstrapIcons/NgIcons.BootstrapIcons.csproj
           - src/NgIcons.Boxicons/NgIcons.Boxicons.csproj
@@ -81,9 +80,31 @@ jobs:
         if: github.event_name == 'push'
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-          NUGET_SOURCE: ${{ secrets.NUGET_SOURCE || 'https://api.nuget.org/v3/index.json' }}
         run: |
-          dotnet nuget push "artifacts/*.nupkg" --source "$NUGET_SOURCE" --api-key "$NUGET_API_KEY" --skip-duplicate
+          for nupkg in artifacts/*.nupkg; do
+            # Extract package ID and version from the .nupkg filename
+            filename=$(basename "$nupkg" .nupkg)
+            # Package naming: PackageId.Version.nupkg
+            package_id=$(echo "$filename" | sed -E 's/\.[0-9]+\.[0-9]+\.[0-9]+.*$//')
+            version=$(echo "$filename" | sed -E 's/^.*\.([0-9]+\.[0-9]+\.[0-9]+.*)$/\1/')
+
+            echo "Checking if $package_id version $version exists on NuGet..."
+
+            # Check if the package version already exists on NuGet
+            http_status=$(curl -s -o /dev/null -w "%{http_code}" "https://api.nuget.org/v3-flatcontainer/${package_id,,}/index.json")
+
+            if [ "$http_status" = "200" ]; then
+              # Package exists, check if this specific version exists
+              versions=$(curl -s "https://api.nuget.org/v3-flatcontainer/${package_id,,}/index.json" | jq -r '.versions[]' 2>/dev/null)
+              if echo "$versions" | grep -qxF "$version"; then
+                echo "Package $package_id version $version already exists on NuGet. Skipping..."
+                continue
+              fi
+            fi
+
+            echo "Publishing $package_id version $version..."
+            dotnet nuget push "$nupkg" --source "https://api.nuget.org/v3/index.json" --api-key "$NUGET_API_KEY"
+          done
 
       - name: Upload artifacts
         if: github.event_name != 'push'

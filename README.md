@@ -1,6 +1,6 @@
 # ngIcons for Blazor
 
-A collection of 76,000+ icons from [ng-icons](https://ng-icons.github.io/ng-icons) packaged as .NET libraries for Blazor applications.
+A collection of 76,000+ icons from [ng-icons-for-blazor](https://ng-icons-for-blazor.github.io/ng-icons-for-blazor-demo/) packaged as .NET libraries for Blazor applications.
 
 ## Overview
 
