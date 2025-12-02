@@ -4,7 +4,8 @@
       "Bash(dotnet script:*)",
       "Bash(del:*)",
       "Bash(dotnet run)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(dotnet build:*)"
     ],
     "deny": [],
     "ask": []
