@@ -27,16 +27,19 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+      # icons extractions are currently already committed to the repo
+      # so we don't need to regenerate them here.
+      
+      # - name: Setup Node
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: '20'
 
-      - name: Install npm dependencies
-        run: npm install
+      # - name: Install npm dependencies
+      #   run: npm install
 
-      - name: Regenerate icon sources
-        run: npm run extract-icons
+      # - name: Regenerate icon sources
+      #   run: npm run extract-icons
 
       - name: Restore
         run: dotnet restore src/ngIcons.for.Blazor.sln

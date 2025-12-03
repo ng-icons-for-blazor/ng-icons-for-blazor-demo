@@ -318,7 +318,7 @@ async function generateLibrary(library: Library): Promise<number> {
   // -------------------------------------------------------------------------
   // Step 3: Prepare output directory
   // -------------------------------------------------------------------------
-  const projectDir = path.join(repoRoot, 'src', library.project);
+  const projectDir = path.join(repoRoot, 'src', 'Icons', library.project);
   await fs.ensureDir(projectDir);
 
   // Remove default Class1.cs if present (from project template)
@@ -430,12 +430,12 @@ async function updateDirectoryBuildPropsVersion(): Promise<string> {
   const npmVersion: string = pkg.version ?? '0.0.0';
 
   // Update the MSBuild props file that sets version for all projects
-  const propsPath = path.join(repoRoot, 'src', 'Directory.Build.props');
+  const propsPath = path.join(repoRoot, 'src', 'Icons', 'Directory.Build.props');
   if (await fs.pathExists(propsPath)) {
     let xml = await fs.readFile(propsPath, 'utf8');
     xml = xml.replace(/<Version>[^<]*<\/Version>/, `<Version>${npmVersion}</Version>`);
     await fs.writeFile(propsPath, xml, 'utf8');
-    console.log(`Updated version to ${npmVersion} in src/Directory.Build.props`);
+    console.log(`Updated version to ${npmVersion} in src/Icons/Directory.Build.props`);
   }
 
   return npmVersion;
