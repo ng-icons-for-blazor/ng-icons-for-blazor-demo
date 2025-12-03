@@ -5,6 +5,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'src/**'
+      - '.github/workflows/deploy-demo.yml'
 
 permissions:
   contents: read
