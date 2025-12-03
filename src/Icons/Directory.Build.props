@@ -1,0 +1,59 @@
+<Project>
+  <PropertyGroup>
+    <!-- Multi-targeting for broad .NET compatibility -->
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+
+    <!-- Package metadata -->
+    <Version>33.0.1</Version>
+    <Authors>Anthony Brenelière</Authors>
+    <Company>TOT Concept</Company>
+    <Copyright>Copyright © ng-icons-for-blazor</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://ng-icons-for-blazor.github.io/ng-icons-for-blazor-demo/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ng-icons-for-blazor/ng-icons-for-blazor-demo</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageTags>blazor;icons;ng-icons;svg;components</PackageTags>
+    <Description>ng-icons for Blazor - A comprehensive icon library for Blazor applications</Description>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)..\artifacts</PackageOutputPath>
+
+    <!-- Deterministic builds -->
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+
+    <!-- Source Link for debugging -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+    <!-- Disable default embedded resources since we explicitly include them below -->
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <!-- Embed individual SVG files and index files for lazy loading -->
+  <ItemGroup>
+    <EmbeddedResource Include="Icons\**\*.svg" />
+    <EmbeddedResource Include="Icons\*.json" />
+  </ItemGroup>
+
+  <!-- NgIcons.Core dependency for all icon libraries -->
+  <ItemGroup>
+    <ProjectReference Include="$(MSBuildThisFileDirectory)..\core\NgIcons.Core.csproj" />
+  </ItemGroup>
+
+  <!-- Source Link package reference -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.22" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.22" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\core\NgIcons.Core.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.AkarIcons\NgIcons.AkarIcons.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.BootstrapIcons\NgIcons.BootstrapIcons.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.Boxicons\NgIcons.Boxicons.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.CircumIcons\NgIcons.CircumIcons.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.CryptocurrencyIcons\NgIcons.CryptocurrencyIcons.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.CssGg\NgIcons.CssGg.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.Devicon\NgIcons.Devicon.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.Dripicons\NgIcons.Dripicons.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.FeatherIcons\NgIcons.FeatherIcons.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.FlagIcons\NgIcons.FlagIcons.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.FontAwesome\NgIcons.FontAwesome.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.GameIcons\NgIcons.GameIcons.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.Heroicons\NgIcons.Heroicons.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.HugeIcons\NgIcons.HugeIcons.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.Iconoir\NgIcons.Iconoir.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.Iconsax\NgIcons.Iconsax.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.Ionicons\NgIcons.Ionicons.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.JamIcons\NgIcons.JamIcons.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.LetsIcons\NgIcons.LetsIcons.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.Lucide\NgIcons.Lucide.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.MaterialFileIcons\NgIcons.MaterialFileIcons.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.MaterialIcons\NgIcons.MaterialIcons.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.MaterialSymbols\NgIcons.MaterialSymbols.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.Mynaui\NgIcons.Mynaui.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.Octicons\NgIcons.Octicons.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.PhosphorIcons\NgIcons.PhosphorIcons.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.RadixIcons\NgIcons.RadixIcons.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.Remixicon\NgIcons.Remixicon.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.SimpleIcons\NgIcons.SimpleIcons.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.SolarIcons\NgIcons.SolarIcons.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.Svgl\NgIcons.Svgl.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.TablerIcons\NgIcons.TablerIcons.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.TdesignIcons\NgIcons.TdesignIcons.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.Typicons\NgIcons.Typicons.csproj" />
+    <ProjectReference Include="..\Icons\NgIcons.UxAspects\NgIcons.UxAspects.csproj" />
+  </ItemGroup>
+
+</Project>

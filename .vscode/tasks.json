@@ -7,11 +7,25 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/samples/NgIcons.Demo/NgIcons.Demo.csproj",
+        "${workspaceFolder}/src/NgIcons.Demo/NgIcons.Demo.csproj",
         "-c",
         "Debug"
       ],
       "problemMatcher": "$msCompile",
+      "group": "build"
+    },
+    {
+      "label": "watch NgIcons.Demo",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "watch",
+        "run",
+        "--project",
+        "${workspaceFolder}/src/NgIcons.Demo/NgIcons.Demo.csproj"
+      ],
+      "problemMatcher": "$msCompile",
+      "isBackground": true,
       "group": "build"
     }
   ]

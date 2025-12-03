@@ -2,26 +2,19 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch NgIcons.Demo",
+      "name": "Watch NgIcons.Demo",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "build NgIcons.Demo",
+      "preLaunchTask": "watch NgIcons.Demo",
       "program": "dotnet",
-      "args": [
-        "run",
-        "--project",
-        "${workspaceFolder}/samples/NgIcons.Demo/NgIcons.Demo.csproj",
-        "--configuration",
-        "Debug"
-      ],
-      "cwd": "${workspaceFolder}",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/NgIcons.Demo",
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "stopAtEntry": false,
       "launchBrowser": {
         "enabled": true,
-        "args": "http://localhost:5174",
+        "args": "http://localhost:5174"
       }
     }
   ]

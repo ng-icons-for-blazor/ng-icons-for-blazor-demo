@@ -13,43 +13,41 @@ jobs:
       fail-fast: false
       matrix:
         project:
-          - src/NgIcons.Core/NgIcons.Core.csproj
-          - src/NgIcons.AkarIcons/NgIcons.AkarIcons.csproj
-          - src/NgIcons.BootstrapIcons/NgIcons.BootstrapIcons.csproj
-          - src/NgIcons.Boxicons/NgIcons.Boxicons.csproj
-          - src/NgIcons.CircumIcons/NgIcons.CircumIcons.csproj
-          - src/NgIcons.CryptocurrencyIcons/NgIcons.CryptocurrencyIcons.csproj
-          - src/NgIcons.CssGg/NgIcons.CssGg.csproj
-          - src/NgIcons.Devicon/NgIcons.Devicon.csproj
-          - src/NgIcons.Dripicons/NgIcons.Dripicons.csproj
-          - src/NgIcons.FeatherIcons/NgIcons.FeatherIcons.csproj
-          - src/NgIcons.FlagIcons/NgIcons.FlagIcons.csproj
-          - src/NgIcons.FontAwesome/NgIcons.FontAwesome.csproj
-          - src/NgIcons.GameIcons/NgIcons.GameIcons.csproj
-          - src/NgIcons.Heroicons/NgIcons.Heroicons.csproj
-          - src/NgIcons.HugeIcons/NgIcons.HugeIcons.csproj
-          - src/NgIcons.Iconoir/NgIcons.Iconoir.csproj
-          - src/NgIcons.Iconsax/NgIcons.Iconsax.csproj
-          - src/NgIcons.Ionicons/NgIcons.Ionicons.csproj
-          - src/NgIcons.JamIcons/NgIcons.JamIcons.csproj
-          - src/NgIcons.LetsIcons/NgIcons.LetsIcons.csproj
-          - src/NgIcons.Lucide/NgIcons.Lucide.csproj
-          - src/NgIcons.MaterialFileIcons/NgIcons.MaterialFileIcons.csproj
-          - src/NgIcons.MaterialIcons/NgIcons.MaterialIcons.csproj
-          - src/NgIcons.MaterialSymbols/NgIcons.MaterialSymbols.csproj
-          - src/NgIcons.Mynaui/NgIcons.Mynaui.csproj
-          - src/NgIcons.Octicons/NgIcons.Octicons.csproj
-          - src/NgIcons.PhosphorIcons/NgIcons.PhosphorIcons.csproj
-          - src/NgIcons.RadixIcons/NgIcons.RadixIcons.csproj
-          - src/NgIcons.Remixicon/NgIcons.Remixicon.csproj
-          - src/NgIcons.Schematics/NgIcons.Schematics.csproj
-          - src/NgIcons.SimpleIcons/NgIcons.SimpleIcons.csproj
-          - src/NgIcons.SolarIcons/NgIcons.SolarIcons.csproj
-          - src/NgIcons.Svgl/NgIcons.Svgl.csproj
-          - src/NgIcons.TablerIcons/NgIcons.TablerIcons.csproj
-          - src/NgIcons.TdesignIcons/NgIcons.TdesignIcons.csproj
-          - src/NgIcons.Typicons/NgIcons.Typicons.csproj
-          - src/NgIcons.UxAspects/NgIcons.UxAspects.csproj
+          - src/Icons/NgIcons.AkarIcons/NgIcons.AkarIcons.csproj
+          - src/Icons/NgIcons.BootstrapIcons/NgIcons.BootstrapIcons.csproj
+          - src/Icons/NgIcons.Boxicons/NgIcons.Boxicons.csproj
+          - src/Icons/NgIcons.CircumIcons/NgIcons.CircumIcons.csproj
+          - src/Icons/NgIcons.CryptocurrencyIcons/NgIcons.CryptocurrencyIcons.csproj
+          - src/Icons/NgIcons.CssGg/NgIcons.CssGg.csproj
+          - src/Icons/NgIcons.Devicon/NgIcons.Devicon.csproj
+          - src/Icons/NgIcons.Dripicons/NgIcons.Dripicons.csproj
+          - src/Icons/NgIcons.FeatherIcons/NgIcons.FeatherIcons.csproj
+          - src/Icons/NgIcons.FlagIcons/NgIcons.FlagIcons.csproj
+          - src/Icons/NgIcons.FontAwesome/NgIcons.FontAwesome.csproj
+          - src/Icons/NgIcons.GameIcons/NgIcons.GameIcons.csproj
+          - src/Icons/NgIcons.Heroicons/NgIcons.Heroicons.csproj
+          - src/Icons/NgIcons.HugeIcons/NgIcons.HugeIcons.csproj
+          - src/Icons/NgIcons.Iconoir/NgIcons.Iconoir.csproj
+          - src/Icons/NgIcons.Iconsax/NgIcons.Iconsax.csproj
+          - src/Icons/NgIcons.Ionicons/NgIcons.Ionicons.csproj
+          - src/Icons/NgIcons.JamIcons/NgIcons.JamIcons.csproj
+          - src/Icons/NgIcons.LetsIcons/NgIcons.LetsIcons.csproj
+          - src/Icons/NgIcons.Lucide/NgIcons.Lucide.csproj
+          - src/Icons/NgIcons.MaterialFileIcons/NgIcons.MaterialFileIcons.csproj
+          - src/Icons/NgIcons.MaterialIcons/NgIcons.MaterialIcons.csproj
+          - src/Icons/NgIcons.MaterialSymbols/NgIcons.MaterialSymbols.csproj
+          - src/Icons/NgIcons.Mynaui/NgIcons.Mynaui.csproj
+          - src/Icons/NgIcons.Octicons/NgIcons.Octicons.csproj
+          - src/Icons/NgIcons.PhosphorIcons/NgIcons.PhosphorIcons.csproj
+          - src/Icons/NgIcons.RadixIcons/NgIcons.RadixIcons.csproj
+          - src/Icons/NgIcons.Remixicon/NgIcons.Remixicon.csproj
+          - src/Icons/NgIcons.SimpleIcons/NgIcons.SimpleIcons.csproj
+          - src/Icons/NgIcons.SolarIcons/NgIcons.SolarIcons.csproj
+          - src/Icons/NgIcons.Svgl/NgIcons.Svgl.csproj
+          - src/Icons/NgIcons.TablerIcons/NgIcons.TablerIcons.csproj
+          - src/Icons/NgIcons.TdesignIcons/NgIcons.TdesignIcons.csproj
+          - src/Icons/NgIcons.Typicons/NgIcons.Typicons.csproj
+          - src/Icons/NgIcons.UxAspects/NgIcons.UxAspects.csproj
 
     steps:
       - name: Checkout
@@ -66,13 +64,13 @@ jobs:
           node-version: '20'
 
       - name: Install npm dependencies
-        run: npm ci
+        run: npm install
 
       - name: Regenerate icon sources
         run: npm run extract-icons
 
       - name: Restore
-        run: dotnet restore ngIcons.for.Blazor.sln
+        run: dotnet restore src/ngIcons.for.Blazor.sln
 
       - name: Pack ${{ matrix.project }}
         run: dotnet pack ${{ matrix.project }} -c Release -o artifacts
@@ -85,9 +83,14 @@ jobs:
         run: |
           dotnet nuget push "artifacts/*.nupkg" --source "$NUGET_SOURCE" --api-key "$NUGET_API_KEY" --skip-duplicate
 
+      - name: Get project name
+        if: github.event_name != 'push'
+        id: project-name
+        run: echo "name=$(basename ${{ matrix.project }} .csproj)" >> $GITHUB_OUTPUT
+
       - name: Upload artifacts
         if: github.event_name != 'push'
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.project }}-packages
+          name: ${{ steps.project-name.outputs.name }}
           path: artifacts/*.nupkg

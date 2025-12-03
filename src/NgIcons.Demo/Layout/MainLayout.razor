@@ -1,0 +1,20 @@
+@inherits LayoutComponentBase
+
+<div class="max-w-6xl mx-auto px-5 py-6 pb-16 text-gray-200 min-h-screen">
+    <header class="flex justify-between items-center p-3 border border-white/10 bg-slate-900/75 backdrop-blur rounded-2xl shadow-xl sticky top-0 z-10 backdrop-blur-sm">
+        <div class="flex items-center gap-2.5 font-bold tracking-wide">
+            <span class="w-2.5 h-2.5 rounded-full bg-purple-500 shadow-[0_0_0_6px_rgba(168,85,247,0.12)]"></span>
+            <span>ngIcons for Blazor</span>
+        </div>
+        <div class="flex gap-3 font-semibold">
+            <a href="https://ng-icons-for-blazor.github.io/ng-icons-for-blazor-demo/" target="_blank" rel="noreferrer"
+               class="px-3 py-2 border border-white/10 rounded-xl text-gray-200 hover:border-white/20 transition-colors">ng-icons-for-blazor</a>
+            <a href="https://github.com/ng-icons-for-blazor/ng-icons-for-blazor-demo" target="_blank" rel="noreferrer"
+               class="px-3 py-2 border border-white/10 rounded-xl text-gray-200 hover:border-white/20 transition-colors">GitHub</a>
+        </div>
+    </header>
+
+    <main>
+        @Body
+    </main>
+</div>
