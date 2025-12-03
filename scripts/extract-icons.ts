@@ -321,6 +321,10 @@ async function generateLibrary(library: Library): Promise<number> {
   const projectDir = path.join(repoRoot, 'src', 'Icons', library.project);
   await fs.ensureDir(projectDir);
 
+  // Ensure the project file exists (minimal SDK-style project)
+  const projectFilePath = path.join(projectDir, `${library.project}.csproj`);
+  await fs.writeFile(projectFilePath, '<Project Sdk="Microsoft.NET.Sdk" />\n', 'utf8');
+
   // Remove default Class1.cs if present (from project template)
   const defaultClass = path.join(projectDir, 'Class1.cs');
   if (await fs.pathExists(defaultClass)) {
