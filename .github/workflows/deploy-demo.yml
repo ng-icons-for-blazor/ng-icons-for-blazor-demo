@@ -39,7 +39,7 @@ jobs:
         run: npm run extract-icons
 
       - name: Restore
-        run: dotnet restore ngIcons.for.Blazor.sln
+        run: dotnet restore src/ngIcons.for.Blazor.sln
 
       - name: Publish Blazor app
         run: dotnet publish src/NgIcons.Demo/NgIcons.Demo.csproj -c Release -o release
